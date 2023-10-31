@@ -1,7 +1,6 @@
 from game import TicTacToeGame
 from udp import UDP
 
-
 class Controller:
     def __init__(self):
         # create server (IP, PORT)
@@ -18,13 +17,16 @@ class Controller:
 
     def process_message(self, data, addr):
         print(f"Received message from {addr[0]}:{addr[1]}: {data}")
-        # You can process the received data here
         
         if(data == "/reset"):
             self.game.handle_reset()
+            print("Game reseted!")
         
         if(data == "/get"):
-            self.server.send_message(self.game.board, addr[0], addr[1])
+            stringToSend = ",".join(self.game.board)
+            print(stringToSend)
+            self.server.send_message(stringToSend, addr[0], addr[1])
+            print("Game state sent!")
         
 
 if __name__ == "__main__":
